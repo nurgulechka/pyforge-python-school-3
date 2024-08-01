@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException
 from rdkit import Chem
 import logging
-
+from os import getenv
 from src.utils import substructure_search
 from src.models import Molecule
 
@@ -12,6 +12,10 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 molecules: dict[str, str] = {}
+
+@router.get("/")
+def get_server():
+    return {"server_id": getenv("SERVER_ID", "1")}
 
 @router.post("/add_molecule")
 def add_molecule(molecule: Molecule):
